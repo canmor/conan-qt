@@ -223,6 +223,9 @@ class QtConan(ConanFile):
             args += ["-silent", "-no-framework"]
             if self.settings.arch == "x86":
                 args += ["-platform macx-clang-32"]
+            else:
+                # qt 5.6 configure script has issue to detect apple llvm above 10, force to use macx-clang
+                args += ["-platform macx-clang"]
 
         self.output.info("Using '%s' threads" % str(tools.cpu_count()))
         self.run("cd %s && ./configure %s" % (self.source_dir, " ".join(args)))
